@@ -1,0 +1,135 @@
+<div *ngIf="loading" class="fixed inset-0 flex items-center justify-center bg-white z-50">
+    <div class="text-lg font-bold animate-pulse">
+        Loading dashboard...
+    </div>
+</div>
+
+
+<div class="min-h-screen bg-slate-50">
+
+    <!-- ================= HEADER ================= -->
+    <div class="flex items-center justify-between bg-white border-b border-slate-200 px-8 py-4">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path
+                        d="M21 16V8a2 2 0 0 0-1-1.73L13 2.27a2 2 0 0 0-2 0L4 6.27A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.73z" />
+                </svg>
+            </div>
+
+            <div>
+                <h1 class="text-xl font-bold text-slate-900">Frontline Dashboard</h1>
+                <p class="text-base text-slate-500">
+                    Last Refreshed: {{ lastRefreshedTime }}
+                </p>
+            </div>
+        </div>
+
+        <div class="text-base font-semibold text-slate-600">
+            {{ currentDate }}
+        </div>
+    </div>
+
+    <!-- ================= TOP STATS ================= -->
+    <div class="px-8 py-6 bg-slate-50">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="relative bg-slate-100 rounded-xl border p-6">
+                <p class="text-sm font-semibold text-slate-500">Total Units</p>
+                <p class="text-4xl font-bold">{{ activeTopStats?.totalUnits }}</p>
+            </div>
+
+            <div class="relative bg-green-50 rounded-xl border p-6">
+                <p class="text-sm font-semibold text-slate-500">Units on Wave</p>
+                <p class="text-4xl font-bold">{{ activeTopStats?.unitsOnWave }}</p>
+            </div>
+
+            <div class="relative bg-yellow-50 rounded-xl border p-6">
+                <p class="text-sm font-semibold text-slate-500">Boxes</p>
+                <p class="text-4xl font-bold">{{ activeTopStats?.boxes }}</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <div class="px-8 pb-8">
+        <div class="grid grid-cols-12 gap-6">
+
+            <!-- LEFT -->
+            <div class="col-span-12 md:col-span-4 bg-white rounded-xl border">
+
+                <div class="px-4 py-3 border-b font-bold">Hubs</div>
+
+                <div *ngFor="let w of visibleWarehouses; let i = index" class="border-b">
+
+                    <div (click)="selectWarehouse(pageIndex * VISIBLE_COUNT + i)"
+                        class="px-4 py-3 flex justify-between cursor-pointer"
+                        [class.bg-blue-50]="(pageIndex * VISIBLE_COUNT + i) === activeIndex">
+
+                        <span class="font-semibold">{{ w.name }}</span>
+                        <span>{{ (pageIndex * VISIBLE_COUNT + i) === activeIndex ? '▲' : '▼' }}</span>
+                    </div>
+
+                    <div *ngIf="(pageIndex * VISIBLE_COUNT + i) === activeIndex" class="px-4 pb-4">
+                        <div class="grid grid-cols-2 gap-3 mt-2">
+
+                            <div class="bg-slate-50 p-3 rounded">
+                                TOTAL UNITS<br><b>{{ w.stats.totalUnits }}</b>
+                            </div>
+
+                            <div class="bg-slate-50 p-3 rounded">
+                                UNITS RELEASED<br><b>{{ w.stats.released }}</b>
+                            </div>
+
+                            <div class="bg-green-50 p-3 rounded">
+                                PICKED<br><b>{{ w.stats.picked }}</b>
+                            </div>
+
+                            <div class="bg-yellow-50 p-3 rounded">
+                                PACKED<br><b>{{ w.stats.packed }}</b>
+                            </div>
+
+                            <div class="bg-purple-50 p-3 rounded col-span-2">
+                                SHIPPED<br><b>{{ w.stats.shipped }}</b>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="col-span-12 md:col-span-8 bg-white rounded-xl border">
+
+                <div class="px-4 py-3 border-b font-bold">
+                    {{ activeWarehouse?.name }} – Current Status
+                </div>
+
+                <table class="w-full">
+                    <thead class="bg-slate-50">
+                        <tr>
+                            <th class="text-left px-4 py-3">Depot</th>
+                            <th>Released</th>
+                            <th>Picked</th>
+                            <th>Packed</th>
+                            <th>Shipped</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let wave of activeWarehouse?.waves" class="border-t">
+                            <td class="px-4 py-3 font-semibold">{{ wave.name }}</td>
+                            <td class="text-center">{{ wave.released }}</td>
+                            <td class="text-center text-green-600">{{ wave.picked }}</td>
+                            <td class="text-center text-yellow-600">{{ wave.packed }}</td>
+                            <td class="text-center text-purple-600">{{ wave.shipped }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
