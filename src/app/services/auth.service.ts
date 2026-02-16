@@ -1,7 +1,12 @@
+
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { tap } from 'rxjs/operators';
+
+const finalUrl = 'https://d3irwj23ouzur5.cloudfront.net';
+// const finalUrl = 'https://mingle-sso.eu1.inforcloudsuite.com';
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -9,7 +14,10 @@ export class AuthService {
     private isBrowser: boolean;
 
     private tokenUrl =
-        'https://mingle-sso.eu1.inforcloudsuite.com:443/SKYL46J6XGTUT24N_TST/as/token.oauth2';
+        `${finalUrl}:443/SKYL46J6XGTUT24N_TST/as/token.oauth2`;
+
+    // Refresh token 5 minutes before expiry
+    private REFRESH_BUFFER = 300 * 1000;
 
     constructor(
         private http: HttpClient,
@@ -18,9 +26,25 @@ export class AuthService {
         this.isBrowser = isPlatformBrowser(platformId);
     }
 
+    // Returns token if still valid, otherwise null
+    getValidToken(): string | null {
+        if (!this.isBrowser) return null;
+
+        const token = localStorage.getItem('access_token');
+        const expiry = localStorage.getItem('token_expiry');
+
+        if (!token || !expiry) return null;
+
+        if (Date.now() > Number(expiry) - this.REFRESH_BUFFER) {
+            return null;
+        }
+
+        return token;
+    }
+
+    // Calls auth API using hard-coded credentials
     getToken() {
 
-        // 🔒 HARD-CODED VALUES (AS REQUESTED)
         const params = new HttpParams()
             .set(
                 'client_id',
@@ -40,11 +64,13 @@ export class AuthService {
             )
             .set('grant_type', 'password');
 
-        // ❗ BODY = null → params go in URL (EXACT CURL MATCH)
         return this.http.post<any>(this.tokenUrl, null, { params }).pipe(
             tap(res => {
                 if (this.isBrowser && res?.access_token) {
                     localStorage.setItem('access_token', res.access_token);
+
+                    const expiryTime = Date.now() + res.expires_in * 1000;
+                    localStorage.setItem('token_expiry', expiryTime.toString());
                 }
             })
         );

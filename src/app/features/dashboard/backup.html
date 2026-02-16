@@ -1,0 +1,211 @@
+<div *ngIf="loading" class="fixed inset-0 flex items-center justify-center bg-white z-50">
+    <div class="text-xl font-bold animate-pulse">Loading dashboard...</div>
+</div>
+
+<div class="min-h-screen bg-slate-50 text-slate-800">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-center bg-white border-b px-6 py-4">
+        <div>
+            <h1 class="text-2xl font-extrabold">Frontline Dashboard</h1>
+            <p class="text-sm font-medium text-slate-600">
+                Last Refreshed: {{ lastRefreshedTime }}
+            </p>
+        </div>
+        <div class="font-semibold text-slate-700">
+            {{ currentDate }}
+        </div>
+    </div>
+
+    <!-- TOP STATS -->
+    <div class="grid grid-cols-12 gap-4 px-6 py-4">
+
+        <!-- LEFT 3 BOXES -->
+        <div class="col-span-8 grid grid-cols-3 gap-4">
+            <div class="bg-slate-100 rounded-xl px-4 py-3 h-20">
+                <p class="text-xs font-bold uppercase">Total Units</p>
+                <p class="text-2xl font-extrabold">
+                    {{ activeTopStats?.totalUnits }}
+                </p>
+            </div>
+
+            <div class="bg-green-100 rounded-xl px-4 py-3 h-20">
+                <p class="text-xs font-bold uppercase">Units on Wave</p>
+                <p class="text-2xl font-extrabold text-green-800">
+                    {{ activeTopStats?.unitsOnWave }}
+                </p>
+            </div>
+
+            <div class="bg-yellow-100 rounded-xl px-4 py-3 h-20">
+                <p class="text-xs font-bold uppercase">Boxes</p>
+                <p class="text-2xl font-extrabold text-yellow-800">
+                    {{ activeTopStats?.boxes }}
+                </p>
+            </div>
+        </div>
+
+        <!-- RIGHT UPH / ETA -->
+        <div class="col-span-4 bg-yellow-300 rounded-xl p-3 grid grid-cols-3 text-center">
+            <div>
+                <p class="text-xs font-bold">TARGET UPH</p>
+                <p class="text-lg font-extrabold text-blue-800">
+                    {{ pickRateStats.target }}
+                </p>
+            </div>
+            <div>
+                <p class="text-xs font-bold">CURRENT UPH</p>
+                <p class="text-lg font-extrabold text-green-800">
+                    {{ pickRateStats.current }}
+                </p>
+            </div>
+            <div>
+                <p class="text-xs font-bold">ETA</p>
+                <p class="text-lg font-extrabold">
+                    {{ pickRateStats.eta }}
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MAIN -->
+    <div class="grid grid-cols-12 gap-6 p-6">
+
+        <!-- LEFT : HUBS -->
+        <div class="col-span-12 md:col-span-4 bg-white rounded-xl border">
+
+            <div class="p-4 font-extrabold border-b">Hubs</div>
+
+            <div *ngFor="let w of visibleWarehouses; let i = index">
+
+                <div class="p-4 flex justify-between cursor-pointer border-b"
+                    (click)="selectWarehouse(pageIndex * VISIBLE_COUNT + i)"
+                    [class.bg-blue-50]="(pageIndex * VISIBLE_COUNT + i) === activeIndex">
+
+                    <span class="font-bold">{{ w.name }}</span>
+                </div>
+
+                <div *ngIf="(pageIndex * VISIBLE_COUNT + i) === activeIndex" class="grid grid-cols-2 gap-3 p-4 text-sm">
+
+                    <!-- UNITS -->
+                    <div class="bg-slate-50 p-3 rounded font-semibold">
+                        TOTAL (Unit)<br>
+                        <span class="text-lg font-extrabold">{{ w.stats.totalUnits }}</span>
+                    </div>
+
+                    <div class="bg-slate-50 p-3 rounded font-semibold">
+                        RELEASED (Unit)<br>
+                        <span class="text-lg font-extrabold">{{ w.stats.releasedUnits }}</span>
+                    </div>
+
+                    <div class="bg-green-50 p-3 rounded font-semibold">
+                        PICKED (Unit)<br>
+                        <span class="text-lg font-extrabold">{{ w.stats.pickedUnits }}</span>
+                    </div>
+
+                    <div class="bg-yellow-50 p-3 rounded font-semibold">
+                        PACKED (Unit)<br>
+                        <span class="text-lg font-extrabold">{{ w.stats.packedUnits }}</span>
+                    </div>
+
+                    <div class="bg-purple-50 p-3 rounded col-span-2 font-semibold">
+                        SHIPPED (Unit)<br>
+                        <span class="text-lg font-extrabold">{{ w.stats.shippedUnits }}</span>
+                    </div>
+
+                    <!-- BOXES -->
+                    <div class="bg-blue-50 p-3 rounded font-semibold">
+                        TOTAL BOX<br>
+                        <span class="text-lg font-extrabold">{{ w.stats.totalBoxes }}</span>
+                    </div>
+
+                    <div class="bg-green-50 p-3 rounded font-semibold">
+                        PICKED BOX<br>
+                        <span class="text-lg font-extrabold">{{ w.stats.pickedBoxes }}</span>
+                    </div>
+
+                    <div class="bg-yellow-50 p-3 rounded font-semibold">
+                        PACKED BOX<br><span class="text-lg font-extrabold">{{ w.stats.packedBoxes }}</span>
+                    </div>
+
+                    <div class="bg-purple-50 p-3 rounded font-semibold">
+                        SHIPPED BOX<br>
+                        <span class="text-lg font-extrabold">
+                            {{ w.stats.shippedBoxes }}
+                        </span>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT : CURRENT STATUS -->
+        <div class="col-span-12 md:col-span-8 bg-white rounded-xl border overflow-hidden">
+
+        <div class="p-4 font-extrabold border-b flex items-center justify-between">
+            <span>
+                {{ activeWarehouse?.name }} – Current Status
+            </span>
+        
+            <!-- RIGHT SIDE MODE BADGE -->
+            <span class="px-3 py-1 rounded-full text-xs font-extrabold uppercase" [ngClass]="statusView === 'UNIT'
+                  ? 'bg-blue-100 text-blue-800'
+                  : 'bg-purple-100 text-purple-800'">
+                {{ statusView }}
+            </span>
+        </div>
+
+            <div class="overflow-y-auto" style="max-height: calc(100vh - 260px);">
+
+                <!-- UNIT TABLE -->
+                <table *ngIf="statusView === 'UNIT'" class="w-full text-center">
+                    <thead class="bg-slate-200">
+                        <tr>
+                            <th class="text-left px-4">Depot</th>
+                            <th>Total Unit</th>
+                            <th>Released Unit</th>
+                            <th>Picked Unit</th>
+                            <th>Packed Unit</th>
+                            <th>Shipped Unit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let w of activeWarehouse?.waves" class="border-t">
+                            <td class="text-left px-4">{{ w.name }}</td>
+                            <td class="font-bold">{{ w.totalUnits }}</td>
+                            <td>{{ w.releasedUnits }}</td>
+                            <td class="text-green-700 font-bold">{{ w.pickedUnits }}</td>
+                            <td class="text-yellow-700 font-bold">{{ w.packedUnits }}</td>
+                            <td class="text-purple-700 font-bold">{{ w.shippedUnits }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- BOX TABLE -->
+                <table *ngIf="statusView === 'BOX'" class="w-full text-center">
+                    <thead class="bg-slate-200">
+                        <tr>
+                            <th class="text-left px-4">Depot</th>
+                            <th>Total Box</th>
+                            <th>Picked Box</th>
+                            <th>Packed Box</th>
+                            <th>Shipped Box</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let w of activeWarehouse?.waves" class="border-t">
+                            <td class="text-left px-4">{{ w.name }}</td>
+                            <td class="font-bold">{{ w.totalBoxes }}</td>
+                            <td class="text-green-700 font-bold">{{ w.pickedBoxes }}</td>
+                            <td class="text-yellow-700 font-bold">{{ w.packedBoxes }}</td>
+                            <td class="text-purple-700 font-bold">{{ w.shippedBoxes }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+</div>
