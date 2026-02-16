@@ -49,7 +49,6 @@ interface Warehouse {
 
 @Component({
     selector: 'app-dashboard',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './dashboard.component.html'
 })
