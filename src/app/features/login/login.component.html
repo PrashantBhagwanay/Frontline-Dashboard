@@ -1,0 +1,47 @@
+<div class="min-h-screen bg-slate-50 text-slate-800 flex items-center justify-center px-4">
+
+    <div class="w-full max-w-md bg-white rounded-xl border shadow-sm flex flex-col items-center px-8 py-10">
+
+        <!-- Logo -->
+        <div class="w-[140px] h-[35px] flex items-center justify-center overflow-hidden mb-12">
+            <img src="assets/logo.png" alt="Smiths News" class="h-10 w-auto object-contain scale-[4]" />
+        </div>
+
+        @if (processing()) {
+        <!-- Verifying state after Cognito redirect -->
+        <h1 class="text-lg font-extrabold text-slate-900 mb-2 animate-pulse">
+            Verifying your login...
+        </h1>
+        <p class="text-[11px] font-semibold uppercase text-slate-500">
+            Please wait
+        </p>
+        } @else {
+        <!-- Normal login screen -->
+        <h1 class="text-2xl font-extrabold text-slate-900 tracking-wide">NBS LOGIN</h1>
+        <p class="text-[11px] font-semibold uppercase text-slate-500 mt-1 mb-10">
+            Frontline Dashboard Access
+        </p>
+
+        @if (errorMessage()) {
+        <div
+            class="w-full bg-red-50 border border-red-200 text-red-800 text-xs font-semibold rounded-md px-3 py-2 mb-4 text-center">
+            {{ errorMessage() }}
+        </div>
+        }
+
+        <button (click)="onLogin()" [disabled]="loading()"
+            class="w-full bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 disabled:opacity-60 disabled:cursor-not-allowed transition-colors rounded-md py-3 text-sm font-extrabold uppercase tracking-wider text-slate-900">
+            @if (loading()) {
+            Redirecting...
+            } @else {
+            Login
+            }
+        </button>
+
+        <p class="text-[10px] font-medium text-slate-400 mt-8">
+            &copy; {{ year }} Smiths News
+        </p>
+        }
+
+    </div>
+</div>

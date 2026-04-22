@@ -1,37 +1,156 @@
-
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable, inject, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { tap } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { authConfig } from '../config/auth.config';
+import { createPkcePair, randomString } from './pkce.util';
+import { secureStorage } from './secure-storage.util';
 
-const finalUrl = 'https://d3irwj23ouzur5.cloudfront.net';
-// const finalUrl = 'https://mingle-sso.eu1.inforcloudsuite.com';
-
+interface TokenResponse {
+    access_token: string;
+    id_token: string;
+    refresh_token?: string;
+    expires_in: number;
+    token_type: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-
+    private platformId = inject(PLATFORM_ID);
     private isBrowser: boolean;
 
-    private tokenUrl =
-        `${finalUrl}:443/SKYL46J6XGTUT24N_TST/as/token.oauth2`;
+    private readonly REFRESH_BUFFER = 300 * 1000;
 
-    // Refresh token 5 minutes before expiry
-    private REFRESH_BUFFER = 300 * 1000;
+    readonly isAuthenticated = signal<boolean>(false);
 
-    constructor(
-        private http: HttpClient,
-        @Inject(PLATFORM_ID) platformId: Object
-    ) {
-        this.isBrowser = isPlatformBrowser(platformId);
+    constructor() {
+        this.isBrowser = isPlatformBrowser(this.platformId);
+
+        if (this.isBrowser) {
+            this.isAuthenticated.set(!!this.getValidToken());
+        }
     }
 
-    // Returns token if still valid, otherwise null
+    async login(): Promise<void> {
+        if (!this.isBrowser) return;
+
+        const cfg = authConfig;
+
+        const pkce = await createPkcePair();
+        sessionStorage.setItem(cfg.storageKeys.pkceVerifier, pkce.verifier);
+
+        const state = randomString(24);
+        sessionStorage.setItem(cfg.storageKeys.oauthState, state);
+
+        const url =
+            `https://${cfg.cognito.userPoolDomain}/oauth2/authorize` +
+            `?client_id=${encodeURIComponent(cfg.cognito.clientId)}` +
+            `&response_type=${encodeURIComponent(cfg.cognito.responseType)}` +
+            `&scope=${encodeURIComponent(cfg.cognito.scopes.join(' '))}` +
+            `&redirect_uri=${encodeURIComponent(cfg.cognito.redirectUri)}` +
+            `&code_challenge_method=S256` +
+            `&code_challenge=${encodeURIComponent(pkce.challenge)}` +
+            `&state=${encodeURIComponent(state)}`;
+
+        window.location.href = url;
+    }
+
+    async exchangeCodeForToken(code: string): Promise<void> {
+        if (!this.isBrowser) return;
+
+        const cfg = authConfig;
+        const verifier = sessionStorage.getItem(cfg.storageKeys.pkceVerifier);
+
+        if (!verifier) {
+            throw new Error('Missing PKCE verifier in session storage');
+        }
+
+        const tokenUrl = `https://${cfg.cognito.userPoolDomain}/oauth2/token`;
+
+        const body = new URLSearchParams({
+            grant_type: 'authorization_code',
+            client_id: cfg.cognito.clientId,
+            code: code,
+            redirect_uri: cfg.cognito.redirectUri,
+            code_verifier: verifier
+        });
+
+        const response = await fetch(tokenUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body.toString()
+        });
+
+        if (!response.ok) {
+            const text = await response.text();
+            throw new Error(`Token exchange failed: ${response.status} ${text}`);
+        }
+
+        const data: TokenResponse = await response.json();
+        this.storeTokens(data);
+
+        sessionStorage.removeItem(cfg.storageKeys.oauthState);
+        sessionStorage.removeItem(cfg.storageKeys.pkceVerifier);
+
+        this.isAuthenticated.set(true);
+    }
+
+    async refreshAccessToken(): Promise<boolean> {
+        if (!this.isBrowser) return false;
+
+        const cfg = authConfig;
+        const refreshToken = secureStorage.getItem(cfg.storageKeys.refreshToken);
+
+        if (!refreshToken) return false;
+
+        const tokenUrl = `https://${cfg.cognito.userPoolDomain}/oauth2/token`;
+
+        const body = new URLSearchParams({
+            grant_type: 'refresh_token',
+            client_id: cfg.cognito.clientId,
+            refresh_token: refreshToken
+        });
+
+        try {
+            const response = await fetch(tokenUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: body.toString()
+            });
+
+            if (!response.ok) return false;
+
+            const data: TokenResponse = await response.json();
+
+            // Refresh response does NOT return a new refresh_token, keep the old one
+            if (!data.refresh_token) {
+                data.refresh_token = refreshToken;
+            }
+
+            this.storeTokens(data);
+            this.isAuthenticated.set(true);
+            return true;
+        } catch (err) {
+            console.error('Token refresh failed', err);
+            return false;
+        }
+    }
+
+    getToken(): Observable<boolean> {
+        return from(this.refreshAccessToken());
+    }
+
+    validateState(returnedState: string | null): boolean {
+        if (!this.isBrowser) return false;
+        const expectedState = sessionStorage.getItem(authConfig.storageKeys.oauthState);
+        return !!expectedState && expectedState === returnedState;
+    }
+
     getValidToken(): string | null {
         if (!this.isBrowser) return null;
 
-        const token = localStorage.getItem('access_token');
-        const expiry = localStorage.getItem('token_expiry');
+        const cfg = authConfig;
+        const token = secureStorage.getItem(cfg.storageKeys.accessToken);
+        const expiry = secureStorage.getItem(cfg.storageKeys.tokenExpiry);
 
         if (!token || !expiry) return null;
 
@@ -42,37 +161,53 @@ export class AuthService {
         return token;
     }
 
-    // Calls auth API using hard-coded credentials
-    getToken() {
+    getAccessToken(): string | null {
+        if (!this.isBrowser) return null;
+        return secureStorage.getItem(authConfig.storageKeys.accessToken);
+    }
 
-        const params = new HttpParams()
-            .set(
-                'client_id',
-                'SKYL46J6XGTUT24N_TST~OOLTtR5N6soL_BiYe-KVvnHYK_EAjAq1ymHVTygYpeE'
-            )
-            .set(
-                'client_secret',
-                'uszE8jr4lyAGwmj3j5GqDNpZR_w2j8XeJX6NLEMateSVgFbkrrzU3tigNqOKWsafTStooQ7S8xNaiWDD8-1wgw'
-            )
-            .set(
-                'username',
-                'SKYL46J6XGTUT24N_TST#kOU79NL5BXeNJKDujA3Fk-l7zmtXOvDXO_A8Rup_6BBjs3lJQcDUW3VTXiA8ylwxURCgYR8UVbb8QKFs0A9JtA'
-            )
-            .set(
-                'password',
-                'smpM_vL6qahvU63r8jUbPfz22QPGASShrMsW9QWyDZhl5zveNtjImIied0h9MNkrEy109_gO92FsSYuYpYuEnA'
-            )
-            .set('grant_type', 'password');
+    getIdToken(): string | null {
+        if (!this.isBrowser) return null;
+        return secureStorage.getItem(authConfig.storageKeys.idToken);
+    }
 
-        return this.http.post<any>(this.tokenUrl, null, { params }).pipe(
-            tap(res => {
-                if (this.isBrowser && res?.access_token) {
-                    localStorage.setItem('access_token', res.access_token);
+    isTokenExpired(): boolean {
+        if (!this.isBrowser) return true;
 
-                    const expiryTime = Date.now() + res.expires_in * 1000;
-                    localStorage.setItem('token_expiry', expiryTime.toString());
-                }
-            })
-        );
+        const expiry = secureStorage.getItem(authConfig.storageKeys.tokenExpiry);
+        if (!expiry) return true;
+
+        return Date.now() > Number(expiry) - this.REFRESH_BUFFER;
+    }
+
+    logout(): void {
+        if (!this.isBrowser) return;
+
+        const cfg = authConfig;
+
+        secureStorage.removeItem(cfg.storageKeys.accessToken);
+        secureStorage.removeItem(cfg.storageKeys.idToken);
+        secureStorage.removeItem(cfg.storageKeys.refreshToken);
+        secureStorage.removeItem(cfg.storageKeys.tokenExpiry);
+        sessionStorage.removeItem(cfg.storageKeys.oauthState);
+        sessionStorage.removeItem(cfg.storageKeys.pkceVerifier);
+
+        this.isAuthenticated.set(false);
+
+        window.location.href = '/';
+    }
+
+    private storeTokens(data: TokenResponse): void {
+        const cfg = authConfig;
+
+        secureStorage.setItem(cfg.storageKeys.accessToken, data.access_token);
+        secureStorage.setItem(cfg.storageKeys.idToken, data.id_token);
+
+        if (data.refresh_token) {
+            secureStorage.setItem(cfg.storageKeys.refreshToken, data.refresh_token);
+        }
+
+        const expiryTime = Date.now() + data.expires_in * 1000;
+        secureStorage.setItem(cfg.storageKeys.tokenExpiry, expiryTime.toString());
     }
 }

@@ -7,6 +7,10 @@
       "node"
     ]
   },
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
   "files": [
     "src/main.ts"
   ],

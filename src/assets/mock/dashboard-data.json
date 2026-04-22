@@ -1,267 +1,253 @@
 {
     "SuperUserDB": {
         "Owner": {
-            "AsOnDatetime": "01/24/2026 16:54:02",
+            "AsOnDatetime": "02/09/2026 15:04:13",
             "Storerkey": "FLNM",
             "PickStats": {
-                "TotalPickedQty": 113,
+                "TargetRate": 310,
+                "TotalPickedQty": 25479,
                 "ETAStats": {
-                    "QtyPending": 732,
-                    "ActivePickerCount": 2
+                    "QtyPending": 9882,
+                    "ActivePickerCount": 13
                 },
-                "TotalManHours": 15.65,
-                "UPHPerPerson": 7.220448,
-                "MinPickTime": "11/20/2025 06:20:41",
-                "MaxPickTime": "11/20/2025 11:33:00",
-                "TotalHours": 5.22,
-                "PickerCount": 3
+                "TotalManHours": 89.7,
+                "UPHPerPerson": 284.046841,
+                "MinPickTime": "02/09/2026 10:05:00",
+                "MaxPickTime": "02/09/2026 15:04:08",
+                "TotalHours": 4.98,
+                "PickerCount": 18
             },
             "NoOfBoxes": {
-                "TotalBoxQty": 9014,
-                "BoxCount": 658
+                "TotalBoxQty": 20140,
+                "BoxCount": 600
             },
             "Hubs": [
                 {
                     "HubName": "Birmingham",
                     "HubSummary": [
                         {
-                            "WaveKey": "0000001978",
-                            "WaveDate": "09/12/2025 11:27:37",
-                            "WaveTotalUnit": 434,
-                            "HubDetail": {
-                                "DepotName": "Birmingham",
-                                "DepotPacked": 434,
-                                "DepotTotalUnits": 434,
-                                "DepotTotalBoxes": 33,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 33,
-                                "DepotCode": 9024,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9024
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001979",
-                            "WaveDate": "09/12/2025 11:28:07",
-                            "WaveTotalUnit": 404,
-                            "HubDetail": {
-                                "DepotName": "Nottingham",
-                                "DepotPacked": 404,
-                                "DepotTotalUnits": 404,
-                                "DepotTotalBoxes": 30,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 30,
-                                "DepotCode": 9334,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9024
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001980",
-                            "WaveDate": "09/12/2025 11:30:36",
-                            "WaveTotalUnit": 92,
-                            "HubDetail": {
-                                "DepotName": "Shrewsbury",
-                                "DepotPacked": 92,
-                                "DepotTotalUnits": 92,
-                                "DepotTotalBoxes": 7,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 7,
-                                "DepotCode": 9384,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9024
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001983",
-                            "WaveDate": "09/12/2025 11:24:39",
-                            "WaveTotalUnit": 451,
-                            "HubDetail": {
-                                "DepotName": "Stockport",
-                                "DepotPacked": 451,
-                                "DepotTotalUnits": 451,
-                                "DepotTotalBoxes": 34,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 34,
-                                "DepotCode": 9396,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9024
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001989",
-                            "WaveDate": "09/12/2025 11:24:09",
-                            "WaveTotalUnit": 408,
+                            "WaveKey": "0000003598",
+                            "WaveDate": "02/09/2026 10:13:19",
+                            "WaveTotalUnit": 2568,
                             "HubDetail": {
                                 "DepotName": "Newcastle",
-                                "DepotPacked": 408,
-                                "DepotTotalUnits": 408,
-                                "DepotTotalBoxes": 30,
+                                "DepotPacked": 2561,
+                                "DepotTotalUnits": 2568,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 78,
                                 "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 30,
+                                "DepotPackedBoxes": 78,
                                 "DepotCode": 9304,
-                                "DepotReleased": 0,
+                                "DepotReleased": 1,
                                 "DepotPicked": 0,
                                 "HubCode": 9024
                             }
                         },
                         {
-                            "WaveKey": "0000001990",
-                            "WaveDate": "09/12/2025 11:28:48",
-                            "WaveTotalUnit": 254,
-                            "HubDetail": {
-                                "DepotName": "Wednesbury",
-                                "DepotPacked": 254,
-                                "DepotTotalUnits": 254,
-                                "DepotTotalBoxes": 18,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 18,
-                                "DepotCode": 9484,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9024
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001991",
-                            "WaveDate": "09/12/2025 11:30:01",
-                            "WaveTotalUnit": 134,
+                            "WaveKey": "0000003599",
+                            "WaveDate": "02/09/2026 10:28:02",
+                            "WaveTotalUnit": 1223,
                             "HubDetail": {
                                 "DepotName": "Stoke",
-                                "DepotPacked": 147,
-                                "DepotTotalUnits": 147,
-                                "DepotTotalBoxes": 11,
+                                "DepotPacked": 105,
+                                "DepotTotalUnits": 1223,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 36,
                                 "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 11,
+                                "DepotPackedBoxes": 3,
                                 "DepotCode": 9394,
-                                "DepotReleased": 0,
+                                "DepotReleased": 1111,
                                 "DepotPicked": 0,
                                 "HubCode": 9024
                             }
                         },
                         {
-                            "WaveKey": "0000001992",
-                            "WaveDate": "09/12/2025 11:31:12",
-                            "WaveTotalUnit": 178,
-                            "HubDetail": {
-                                "DepotName": "Leicester",
-                                "DepotPacked": 178,
-                                "DepotTotalUnits": 178,
-                                "DepotTotalBoxes": 13,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 13,
-                                "DepotCode": 9244,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9024
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001993",
-                            "WaveDate": "09/12/2025 11:31:54",
-                            "WaveTotalUnit": 113,
+                            "WaveKey": "0000003600",
+                            "WaveDate": "02/09/2026 10:32:46",
+                            "WaveTotalUnit": 692,
                             "HubDetail": {
                                 "DepotName": "Lincoln",
-                                "DepotPacked": 113,
-                                "DepotTotalUnits": 113,
-                                "DepotTotalBoxes": 8,
+                                "DepotPacked": 0,
+                                "DepotTotalUnits": 692,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 20,
                                 "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 8,
+                                "DepotPackedBoxes": 0,
                                 "DepotCode": 9260,
-                                "DepotReleased": 0,
+                                "DepotReleased": 692,
                                 "DepotPicked": 0,
                                 "HubCode": 9024
                             }
                         },
                         {
-                            "WaveKey": "0000001994",
-                            "WaveDate": "09/12/2025 11:32:30",
-                            "WaveTotalUnit": 377,
+                            "WaveKey": "0000003602",
+                            "WaveDate": "02/09/2026 10:23:19",
+                            "WaveTotalUnit": 1993,
+                            "HubDetail": {
+                                "DepotName": "Nottingham",
+                                "DepotPacked": 0,
+                                "DepotTotalUnits": 1993,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 55,
+                                "DepotPickedBoxes": 5,
+                                "DepotPackedBoxes": 0,
+                                "DepotCode": 9334,
+                                "DepotReleased": 1849,
+                                "DepotPicked": 123,
+                                "HubCode": 9024
+                            }
+                        },
+                        {
+                            "WaveKey": "0000003603",
+                            "WaveDate": "02/09/2026 10:31:21",
+                            "WaveTotalUnit": 883,
+                            "HubDetail": {
+                                "DepotName": "Leicester",
+                                "DepotPacked": 0,
+                                "DepotTotalUnits": 883,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 26,
+                                "DepotPickedBoxes": 0,
+                                "DepotPackedBoxes": 0,
+                                "DepotCode": 9244,
+                                "DepotReleased": 883,
+                                "DepotPicked": 0,
+                                "HubCode": 9024
+                            }
+                        },
+                        {
+                            "WaveKey": "0000003606",
+                            "WaveDate": "02/09/2026 10:16:26",
+                            "WaveTotalUnit": 2632,
+                            "HubDetail": {
+                                "DepotName": "Stockport",
+                                "DepotPacked": 1458,
+                                "DepotTotalUnits": 2632,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 77,
+                                "DepotPickedBoxes": 27,
+                                "DepotPackedBoxes": 43,
+                                "DepotCode": 9396,
+                                "DepotReleased": 302,
+                                "DepotPicked": 856,
+                                "HubCode": 9024
+                            }
+                        },
+                        {
+                            "WaveKey": "0000003607",
+                            "WaveDate": "02/09/2026 10:29:51",
+                            "WaveTotalUnit": 976,
+                            "HubDetail": {
+                                "DepotName": "Shrewsbury",
+                                "DepotPacked": 0,
+                                "DepotTotalUnits": 976,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 29,
+                                "DepotPickedBoxes": 0,
+                                "DepotPackedBoxes": 0,
+                                "DepotCode": 9384,
+                                "DepotReleased": 976,
+                                "DepotPicked": 0,
+                                "HubCode": 9024
+                            }
+                        },
+                        {
+                            "WaveKey": "0000003608",
+                            "WaveDate": "02/09/2026 10:33:42",
+                            "WaveTotalUnit": 423,
                             "HubDetail": {
                                 "DepotName": "Liverpool",
-                                "DepotPacked": 377,
-                                "DepotTotalUnits": 377,
-                                "DepotTotalBoxes": 28,
+                                "DepotPacked": 423,
+                                "DepotTotalUnits": 423,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 12,
                                 "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 28,
+                                "DepotPackedBoxes": 12,
                                 "DepotCode": 9064,
                                 "DepotReleased": 0,
                                 "DepotPicked": 0,
                                 "HubCode": 9024
                             }
+                        },
+                        {
+                            "WaveKey": "0000003611",
+                            "WaveDate": "02/09/2026 10:20:47",
+                            "WaveTotalUnit": 2057,
+                            "HubDetail": {
+                                "DepotName": "Birmingham",
+                                "DepotPacked": 0,
+                                "DepotTotalUnits": 2057,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 61,
+                                "DepotPickedBoxes": 0,
+                                "DepotPackedBoxes": 0,
+                                "DepotCode": 9024,
+                                "DepotReleased": 2057,
+                                "DepotPicked": 0,
+                                "HubCode": 9024
+                            }
+                        },
+                        {
+                            "WaveKey": "0000003612",
+                            "WaveDate": "02/09/2026 10:25:20",
+                            "WaveTotalUnit": 1961,
+                            "HubDetail": {
+                                "DepotName": "Wednesbury",
+                                "DepotPacked": 0,
+                                "DepotTotalUnits": 1961,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 58,
+                                "DepotPickedBoxes": 0,
+                                "DepotPackedBoxes": 0,
+                                "DepotCode": 9484,
+                                "DepotReleased": 1961,
+                                "DepotPicked": 0,
+                                "HubCode": 9024
+                            }
                         }
                     ],
+                    "HubwiseSum": {
+                        "ShippedQty": 0
+                    },
                     "HubCode": 9024
                 },
                 {
                     "HubName": "New Port",
                     "HubSummary": [
                         {
-                            "WaveKey": "0000001969",
-                            "WaveDate": "09/12/2025 10:30:57",
-                            "WaveTotalUnit": 404,
-                            "HubDetail": {
-                                "DepotName": "Bristol",
-                                "DepotPacked": 404,
-                                "DepotTotalUnits": 404,
-                                "DepotTotalBoxes": 29,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 29,
-                                "DepotCode": 9044,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9314
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001970",
-                            "WaveDate": "09/12/2025 10:31:48",
-                            "WaveTotalUnit": 369,
-                            "HubDetail": {
-                                "DepotName": "Newport",
-                                "DepotPacked": 369,
-                                "DepotTotalUnits": 369,
-                                "DepotTotalBoxes": 28,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 28,
-                                "DepotCode": 9314,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9314
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001974",
-                            "WaveDate": "09/12/2025 10:32:24",
-                            "WaveTotalUnit": 210,
-                            "HubDetail": {
-                                "DepotName": "Gloucester",
-                                "DepotPacked": 210,
-                                "DepotTotalUnits": 210,
-                                "DepotTotalBoxes": 15,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 15,
-                                "DepotCode": 9154,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9314
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001975",
-                            "WaveDate": "09/12/2025 11:18:19",
-                            "WaveTotalUnit": 134,
+                            "WaveKey": "0000003575",
+                            "WaveDate": "02/09/2026 09:51:48",
+                            "WaveTotalUnit": 718,
                             "HubDetail": {
                                 "DepotName": "Swindon",
-                                "DepotPacked": 134,
-                                "DepotTotalUnits": 134,
-                                "DepotTotalBoxes": 10,
+                                "DepotPacked": 718,
+                                "DepotTotalUnits": 718,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 21,
                                 "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 10,
+                                "DepotPackedBoxes": 21,
                                 "DepotCode": 9420,
                                 "DepotReleased": 0,
                                 "DepotPicked": 0,
@@ -269,16 +255,19 @@
                             }
                         },
                         {
-                            "WaveKey": "0000001976",
-                            "WaveDate": "09/12/2025 10:33:14",
-                            "WaveTotalUnit": 264,
+                            "WaveKey": "0000003588",
+                            "WaveDate": "02/09/2026 09:49:19",
+                            "WaveTotalUnit": 1255,
                             "HubDetail": {
                                 "DepotName": "Exeter",
-                                "DepotPacked": 264,
-                                "DepotTotalUnits": 264,
-                                "DepotTotalBoxes": 19,
+                                "DepotPacked": 533,
+                                "DepotTotalUnits": 1255,
+                                "HubShipped": {
+                                    "DepotShipped": 379
+                                },
+                                "DepotTotalBoxes": 36,
                                 "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 19,
+                                "DepotPackedBoxes": 23,
                                 "DepotCode": 9134,
                                 "DepotReleased": 0,
                                 "DepotPicked": 0,
@@ -286,84 +275,19 @@
                             }
                         },
                         {
-                            "WaveKey": "0000001977",
-                            "WaveDate": "09/12/2025 11:19:44",
-                            "WaveTotalUnit": 83,
-                            "HubDetail": {
-                                "DepotName": "Worcester",
-                                "DepotPacked": 83,
-                                "DepotTotalUnits": 83,
-                                "DepotTotalBoxes": 6,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 6,
-                                "DepotCode": 9494,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9314
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001981",
-                            "WaveDate": "09/12/2025 10:33:47",
-                            "WaveTotalUnit": 199,
-                            "HubDetail": {
-                                "DepotName": "Yeovil",
-                                "DepotPacked": 196,
-                                "DepotTotalUnits": 199,
-                                "DepotTotalBoxes": 15,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 15,
-                                "DepotCode": 9495,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9314
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001982",
-                            "WaveDate": "09/12/2025 11:21:58",
-                            "WaveTotalUnit": 79,
-                            "HubDetail": {
-                                "DepotName": "Redruth",
-                                "DepotPacked": 79,
-                                "DepotTotalUnits": 79,
-                                "DepotTotalBoxes": 6,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 6,
-                                "DepotCode": 9370,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9314
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001986",
-                            "WaveDate": "09/12/2025 11:19:18",
-                            "WaveTotalUnit": 120,
-                            "HubDetail": {
-                                "DepotName": "Plymouth",
-                                "DepotPacked": 120,
-                                "DepotTotalUnits": 120,
-                                "DepotTotalBoxes": 9,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 9,
-                                "DepotCode": 9354,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9314
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001987",
-                            "WaveDate": "09/12/2025 11:20:18",
-                            "WaveTotalUnit": 53,
+                            "WaveKey": "0000003589",
+                            "WaveDate": "02/09/2026 09:54:31",
+                            "WaveTotalUnit": 285,
                             "HubDetail": {
                                 "DepotName": "Bodmin",
-                                "DepotPacked": 53,
-                                "DepotTotalUnits": 53,
-                                "DepotTotalBoxes": 4,
+                                "DepotPacked": 285,
+                                "DepotTotalUnits": 285,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 8,
                                 "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 4,
+                                "DepotPackedBoxes": 8,
                                 "DepotCode": 9034,
                                 "DepotReleased": 0,
                                 "DepotPicked": 0,
@@ -371,264 +295,130 @@
                             }
                         },
                         {
-                            "WaveKey": "0000001988",
-                            "WaveDate": "09/12/2025 11:21:13",
-                            "WaveTotalUnit": 84,
+                            "WaveKey": "0000003590",
+                            "WaveDate": "02/09/2026 09:55:14",
+                            "WaveTotalUnit": 297,
                             "HubDetail": {
                                 "DepotName": "Barnstaple",
-                                "DepotPacked": 84,
-                                "DepotTotalUnits": 84,
-                                "DepotTotalBoxes": 6,
+                                "DepotPacked": 297,
+                                "DepotTotalUnits": 297,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 9,
                                 "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 6,
+                                "DepotPackedBoxes": 9,
                                 "DepotCode": 9021,
                                 "DepotReleased": 0,
                                 "DepotPicked": 0,
                                 "HubCode": 9314
                             }
+                        },
+                        {
+                            "WaveKey": "0000003594",
+                            "WaveDate": "02/09/2026 09:52:45",
+                            "WaveTotalUnit": 768,
+                            "HubDetail": {
+                                "DepotName": "Plymouth",
+                                "DepotPacked": 768,
+                                "DepotTotalUnits": 768,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 23,
+                                "DepotPickedBoxes": 0,
+                                "DepotPackedBoxes": 23,
+                                "DepotCode": 9354,
+                                "DepotReleased": 0,
+                                "DepotPicked": 0,
+                                "HubCode": 9314
+                            }
+                        },
+                        {
+                            "WaveKey": "0000003595",
+                            "WaveDate": "02/09/2026 09:53:49",
+                            "WaveTotalUnit": 708,
+                            "HubDetail": {
+                                "DepotName": "Worcester",
+                                "DepotPacked": 708,
+                                "DepotTotalUnits": 708,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 22,
+                                "DepotPickedBoxes": 0,
+                                "DepotPackedBoxes": 22,
+                                "DepotCode": 9494,
+                                "DepotReleased": 0,
+                                "DepotPicked": 0,
+                                "HubCode": 9314
+                            }
+                        },
+                        {
+                            "WaveKey": "0000003597",
+                            "WaveDate": "02/09/2026 09:50:41",
+                            "WaveTotalUnit": 1142,
+                            "HubDetail": {
+                                "DepotName": "Yeovil",
+                                "DepotPacked": 1142,
+                                "DepotTotalUnits": 1142,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 33,
+                                "DepotPickedBoxes": 0,
+                                "DepotPackedBoxes": 33,
+                                "DepotCode": 9495,
+                                "DepotReleased": 0,
+                                "DepotPicked": 0,
+                                "HubCode": 9314
+                            }
+                        },
+                        {
+                            "WaveKey": "0000003601",
+                            "WaveDate": "02/09/2026 09:55:51",
+                            "WaveTotalUnit": 258,
+                            "HubDetail": {
+                                "DepotName": "Redruth",
+                                "DepotPacked": 213,
+                                "DepotTotalUnits": 258,
+                                "HubShipped": {
+                                    "DepotShipped": 0
+                                },
+                                "DepotTotalBoxes": 7,
+                                "DepotPickedBoxes": 1,
+                                "DepotPackedBoxes": 6,
+                                "DepotCode": 9370,
+                                "DepotReleased": 0,
+                                "DepotPicked": 45,
+                                "HubCode": 9314
+                            }
                         }
                     ],
+                    "HubwiseSum": {
+                        "ShippedQty": 5019
+                    },
                     "HubCode": 9314
                 },
                 {
                     "HubName": "Hemel Hempstead",
-                    "HubSummary": [
-                        {
-                            "WaveKey": "0000001984",
-                            "WaveDate": "09/12/2025 14:26:00",
-                            "WaveTotalUnit": 358,
-                            "HubDetail": {
-                                "DepotName": "Croydon",
-                                "DepotPacked": 358,
-                                "DepotTotalUnits": 358,
-                                "DepotTotalBoxes": 27,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 27,
-                                "DepotCode": 9346,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9464
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001985",
-                            "WaveDate": "09/12/2025 14:27:53",
-                            "WaveTotalUnit": 256,
-                            "HubDetail": {
-                                "DepotName": "Hammersmith",
-                                "DepotPacked": 256,
-                                "DepotTotalUnits": 256,
-                                "DepotTotalBoxes": 19,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 19,
-                                "DepotCode": 9184,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9464
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001991",
-                            "WaveDate": "09/12/2025 11:30:01",
-                            "WaveTotalUnit": 13,
-                            "HubDetail": {
-                                "DepotName": "Stoke",
-                                "DepotPacked": 147,
-                                "DepotTotalUnits": 147,
-                                "DepotTotalBoxes": 11,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 11,
-                                "DepotCode": 9394,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9464
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001995",
-                            "WaveDate": "09/12/2025 14:19:09",
-                            "WaveTotalUnit": 240,
-                            "HubDetail": {
-                                "DepotName": "Peterborough",
-                                "DepotPacked": 240,
-                                "DepotTotalUnits": 240,
-                                "DepotTotalBoxes": 18,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 18,
-                                "DepotCode": 9348,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9464
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001996",
-                            "WaveDate": "09/12/2025 11:38:49",
-                            "WaveTotalUnit": 516,
-                            "HubDetail": {
-                                "DepotName": "Southampton",
-                                "DepotPacked": 516,
-                                "DepotTotalUnits": 516,
-                                "DepotTotalBoxes": 38,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 38,
-                                "DepotCode": 9386,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9464
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001997",
-                            "WaveDate": "09/12/2025 11:43:26",
-                            "WaveTotalUnit": 299,
-                            "HubDetail": {
-                                "DepotName": "Milton Keynes",
-                                "DepotPacked": 299,
-                                "DepotTotalUnits": 299,
-                                "DepotTotalBoxes": 22,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 22,
-                                "DepotCode": 9033,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9464
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001998",
-                            "WaveDate": "09/12/2025 14:20:17",
-                            "WaveTotalUnit": 194,
-                            "HubDetail": {
-                                "DepotName": "Oxford",
-                                "DepotPacked": 181,
-                                "DepotTotalUnits": 194,
-                                "DepotTotalBoxes": 14,
-                                "DepotPickedBoxes": 1,
-                                "DepotPackedBoxes": 13,
-                                "DepotCode": 9344,
-                                "DepotReleased": 0,
-                                "DepotPicked": 13,
-                                "HubCode": 9464
-                            }
-                        },
-                        {
-                            "WaveKey": "0000001999",
-                            "WaveDate": "09/12/2025 14:21:10",
-                            "WaveTotalUnit": 169,
-                            "HubDetail": {
-                                "DepotName": "Hemel Hempstead",
-                                "DepotPacked": 169,
-                                "DepotTotalUnits": 169,
-                                "DepotTotalBoxes": 13,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 13,
-                                "DepotCode": 9464,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9464
-                            }
-                        },
-                        {
-                            "WaveKey": "0000002000",
-                            "WaveDate": "09/12/2025 14:22:26",
-                            "WaveTotalUnit": 65,
-                            "HubDetail": {
-                                "DepotName": "Newmarket",
-                                "DepotPacked": 65,
-                                "DepotTotalUnits": 65,
-                                "DepotTotalBoxes": 5,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 5,
-                                "DepotCode": 9068,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9464
-                            }
-                        },
-                        {
-                            "WaveKey": "0000002001",
-                            "WaveDate": "09/12/2025 14:24:20",
-                            "WaveTotalUnit": 248,
-                            "HubDetail": {
-                                "DepotName": "Slough",
-                                "DepotPacked": 248,
-                                "DepotTotalUnits": 248,
-                                "DepotTotalBoxes": 18,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 18,
-                                "DepotCode": 9388,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9464
-                            }
-                        },
-                        {
-                            "WaveKey": "0000002002",
-                            "WaveDate": "09/12/2025 14:27:05",
-                            "WaveTotalUnit": 52,
-                            "HubDetail": {
-                                "DepotName": "Stevenage (Luton)",
-                                "DepotPacked": 52,
-                                "DepotTotalUnits": 52,
-                                "DepotTotalBoxes": 4,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 4,
-                                "DepotCode": 9250,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9464
-                            }
-                        },
-                        {
-                            "WaveKey": "0000002006",
-                            "WaveDate": "09/12/2025 14:25:12",
-                            "WaveTotalUnit": 166,
-                            "HubDetail": {
-                                "DepotName": "Crawley",
-                                "DepotPacked": 166,
-                                "DepotTotalUnits": 166,
-                                "DepotTotalBoxes": 12,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 12,
-                                "DepotCode": 9091,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9464
-                            }
-                        },
-                        {
-                            "WaveKey": "0000002011",
-                            "WaveDate": "09/12/2025 14:28:35",
-                            "WaveTotalUnit": 158,
-                            "HubDetail": {
-                                "DepotName": "Hornsey",
-                                "DepotPacked": 158,
-                                "DepotTotalUnits": 158,
-                                "DepotTotalBoxes": 12,
-                                "DepotPickedBoxes": 0,
-                                "DepotPackedBoxes": 12,
-                                "DepotCode": 9096,
-                                "DepotReleased": 0,
-                                "DepotPicked": 0,
-                                "HubCode": 9464
-                            }
-                        }
-                    ],
+                    "HubwiseSum": {
+                        "ShippedQty": 0
+                    },
                     "HubCode": 9464
                 }
             ],
             "TotalUnits": {
-                "TotalOrderQty": 34597,
-                "TotalOrderCount": 1485
+                "TotalOrderQty": 33779,
+                "TotalOrderCount": 368
             },
             "UnitsOnWave": {
-                "TotalWaveQty": 9257,
-                "WaveOrderCount": 647
+                "TotalWaveQty": 20460,
+                "WaveOrderCount": 187
             }
         },
-        "TransmitLogKey": "0000139158",
-        "AddDate": "01/24/2026 10:06:00",
-        "SerialKey": 137890
+        "TransmitLogKey": "0000253644",
+        "AddDate": "02/09/2026 14:53:23",
+        "SerialKey": 252038
     }
 }
