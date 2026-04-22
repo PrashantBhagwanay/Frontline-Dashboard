@@ -1,6 +1,5 @@
 import { Injectable, inject, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { from, Observable } from 'rxjs';
 import { authConfig } from '../config/auth.config';
 import { createPkcePair, randomString } from './pkce.util';
 import { secureStorage } from './secure-storage.util';
@@ -18,7 +17,8 @@ export class AuthService {
     private platformId = inject(PLATFORM_ID);
     private isBrowser: boolean;
 
-    private readonly REFRESH_BUFFER = 300 * 1000;
+    // 1 min buffer - if less than 1 min remaining, treat as expired
+    private readonly EXPIRY_BUFFER = 60 * 1000;
 
     readonly isAuthenticated = signal<boolean>(false);
 
@@ -94,57 +94,13 @@ export class AuthService {
         this.isAuthenticated.set(true);
     }
 
-    async refreshAccessToken(): Promise<boolean> {
-        if (!this.isBrowser) return false;
-
-        const cfg = authConfig;
-        const refreshToken = secureStorage.getItem(cfg.storageKeys.refreshToken);
-
-        if (!refreshToken) return false;
-
-        const tokenUrl = `https://${cfg.cognito.userPoolDomain}/oauth2/token`;
-
-        const body = new URLSearchParams({
-            grant_type: 'refresh_token',
-            client_id: cfg.cognito.clientId,
-            refresh_token: refreshToken
-        });
-
-        try {
-            const response = await fetch(tokenUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: body.toString()
-            });
-
-            if (!response.ok) return false;
-
-            const data: TokenResponse = await response.json();
-
-            // Refresh response does NOT return a new refresh_token, keep the old one
-            if (!data.refresh_token) {
-                data.refresh_token = refreshToken;
-            }
-
-            this.storeTokens(data);
-            this.isAuthenticated.set(true);
-            return true;
-        } catch (err) {
-            console.error('Token refresh failed', err);
-            return false;
-        }
-    }
-
-    getToken(): Observable<boolean> {
-        return from(this.refreshAccessToken());
-    }
-
     validateState(returnedState: string | null): boolean {
         if (!this.isBrowser) return false;
         const expectedState = sessionStorage.getItem(authConfig.storageKeys.oauthState);
         return !!expectedState && expectedState === returnedState;
     }
 
+    // Returns token ONLY if still valid. Null if missing or expired.
     getValidToken(): string | null {
         if (!this.isBrowser) return null;
 
@@ -154,21 +110,11 @@ export class AuthService {
 
         if (!token || !expiry) return null;
 
-        if (Date.now() > Number(expiry) - this.REFRESH_BUFFER) {
+        if (Date.now() > Number(expiry) - this.EXPIRY_BUFFER) {
             return null;
         }
 
         return token;
-    }
-
-    getAccessToken(): string | null {
-        if (!this.isBrowser) return null;
-        return secureStorage.getItem(authConfig.storageKeys.accessToken);
-    }
-
-    getIdToken(): string | null {
-        if (!this.isBrowser) return null;
-        return secureStorage.getItem(authConfig.storageKeys.idToken);
     }
 
     isTokenExpired(): boolean {
@@ -177,10 +123,22 @@ export class AuthService {
         const expiry = secureStorage.getItem(authConfig.storageKeys.tokenExpiry);
         if (!expiry) return true;
 
-        return Date.now() > Number(expiry) - this.REFRESH_BUFFER;
+        return Date.now() > Number(expiry) - this.EXPIRY_BUFFER;
     }
 
-    logout(): void {
+    // Milliseconds remaining until token expires (0 if already expired)
+    getTimeUntilExpiry(): number {
+        if (!this.isBrowser) return 0;
+
+        const expiry = secureStorage.getItem(authConfig.storageKeys.tokenExpiry);
+        if (!expiry) return 0;
+
+        const remaining = Number(expiry) - Date.now() - this.EXPIRY_BUFFER;
+        return Math.max(0, remaining);
+    }
+
+    // Force logout - clear everything and redirect to login
+    forceLogout(reason?: string): void {
         if (!this.isBrowser) return;
 
         const cfg = authConfig;
@@ -194,7 +152,15 @@ export class AuthService {
 
         this.isAuthenticated.set(false);
 
+        if (reason) {
+            sessionStorage.setItem('logout_reason', reason);
+        }
+
         window.location.href = '/';
+    }
+
+    logout(): void {
+        this.forceLogout();
     }
 
     private storeTokens(data: TokenResponse): void {
