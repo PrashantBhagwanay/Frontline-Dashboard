@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
 
             } catch (err) {
                 const message = err instanceof Error ? err.message : 'Authentication failed';
-                console.error('Auth verification failed', err);
+                // console.error('Auth verification failed', err);
                 this.errorMessage.set(message);
                 this.processing.set(false);
                 this.cleanUrl();

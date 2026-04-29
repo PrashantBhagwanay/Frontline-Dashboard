@@ -75,7 +75,7 @@ export class WebSocketService implements OnDestroy {
         };
 
         this.ws.onclose = (event) => {
-            console.warn(`WebSocket closed: code=${event.code}, reason=${event.reason}`);
+            // console.warn(`WebSocket closed: code=${event.code}, reason=${event.reason}`);
             this.connectionStatus.set('disconnected');
             this.stopHeartbeat();
 
@@ -127,13 +127,13 @@ export class WebSocketService implements OnDestroy {
 
     private attemptReconnect(siteId: string): void {
         if (this.reconnectAttempts >= this.MAX_RECONNECT_ATTEMPTS) {
-            console.error('Max reconnect attempts reached');
+            // console.error('Max reconnect attempts reached');
             return;
         }
 
         // Check token validity before attempting reconnect
         if (!this.auth.getValidToken()) {
-            console.warn('Token expired, cannot reconnect WebSocket');
+            // console.warn('Token expired, cannot reconnect WebSocket');
             this.auth.forceLogout('Session expired.');
             return;
         }
@@ -141,7 +141,7 @@ export class WebSocketService implements OnDestroy {
         this.reconnectAttempts++;
         const delay = Math.min(1000 * Math.pow(2, this.reconnectAttempts), 30000);
 
-        console.log(`Reconnecting in ${delay}ms (attempt ${this.reconnectAttempts})`);
+        // console.log(`Reconnecting in ${delay}ms (attempt ${this.reconnectAttempts})`);
 
         this.reconnectTimer = setTimeout(() => {
             this.connect(siteId);

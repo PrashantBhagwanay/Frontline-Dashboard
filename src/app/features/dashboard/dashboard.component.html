@@ -1,8 +1,8 @@
 <!-- LOADER -->
 @if (loading) {
-  <div class="fixed inset-0 flex items-center justify-center bg-white z-50">
-    <div class="text-xl font-bold animate-pulse">Loading dashboard...</div>
-  </div>
+<div class="fixed inset-0 flex items-center justify-center bg-white z-50">
+  <div class="text-xl font-bold animate-pulse">Loading dashboard...</div>
+</div>
 }
 
 <!-- ROOT -->
@@ -19,11 +19,9 @@
     <div class="flex flex-col items-end gap-1">
 
       <!-- LOGO -->
-      <div class="w-[140px] h-[35px] flex items-center justify-center overflow-hidden ">
+      <div class="w-[140px] h-[35px] flex items-center justify-center overflow-hidden">
         <img src="assets/logo.png" alt="Smiths News" class="h-10 w-auto object-contain scale-[4]" />
       </div>
-
-      
 
       <!-- DATE -->
       <span class="text-xs font-semibold text-slate-600 whitespace-nowrap mr-2">
@@ -31,56 +29,39 @@
       </span>
 
     </div>
-
-
   </div>
 
   <!-- TOP STATS -->
   <div class="grid grid-cols-12 gap-3 px-6 py-2 h-[85px] shrink-0">
 
+    <!-- LEFT: 3 stat cards — driven by topStatCards config -->
     <div class="col-span-8 grid grid-cols-3 gap-3">
-      <div class="bg-slate-100 rounded-md px-3 py-1 h-full">
-        <p class="text-[11px] font-bold uppercase text-slate-700">Total Units</p>
-        <p class="text-lg font-extrabold text-slate-900">
-          {{ activeTopStats.totalUnits }}
+      @for (card of topStatCards; track card.key) {
+      <div [class]="card.bg + ' rounded-md px-3 py-1 h-full'">
+        <p class="text-[11px] font-bold uppercase text-slate-700">{{ card.label }}</p>
+        <p [class]="'text-lg font-extrabold ' + card.textColor">
+          {{ activeTopStats[card.key] }}
         </p>
       </div>
-
-      <div class="bg-green-100 rounded-md px-3 py-1 h-full">
-        <p class="text-[11px] font-bold uppercase text-slate-700">Units on Wave</p>
-        <p class="text-lg font-extrabold text-green-800">
-          {{ activeTopStats.unitsOnWave }}
-        </p>
-      </div>
-
-      <div class="bg-yellow-100 rounded-md px-3 py-1 h-full">
-        <p class="text-[11px] font-bold uppercase text-slate-700">Boxes</p>
-        <p class="text-lg font-extrabold text-yellow-800">
-          {{ activeTopStats.boxes }}
-        </p>
-      </div>
+      }
     </div>
 
+    <!-- RIGHT: Pick rate stats -->
     <div class="col-span-4 bg-yellow-300 rounded-md p-2 grid grid-cols-3 text-center">
       <div>
         <p class="text-[10px] font-bold">TARGET UPH</p>
-        <p class="text-sm font-extrabold text-blue-800">
-          {{ pickRateStats.target }}
-        </p>
+        <p class="text-sm font-extrabold text-blue-800">{{ pickRateStats.target }}</p>
       </div>
       <div>
         <p class="text-[10px] font-bold">CURRENT UPH</p>
-        <p class="text-sm font-extrabold text-green-800">
-          {{ pickRateStats.current }}
-        </p>
+        <p class="text-sm font-extrabold text-green-800">{{ pickRateStats.current }}</p>
       </div>
       <div>
         <p class="text-[10px] font-bold">ETA</p>
-        <p class="text-sm font-extrabold">
-          {{ pickRateStats.eta }}
-        </p>
+        <p class="text-sm font-extrabold">{{ pickRateStats.eta }}</p>
       </div>
     </div>
+
   </div>
 
   <!-- MAIN -->
@@ -89,99 +70,37 @@
     <!-- LEFT : HUBS (≈40%) -->
     <div class="col-span-12 md:col-span-5 bg-white rounded-xl border flex flex-col">
 
-      <div class="p-3 font-extrabold border-b text-sm shrink-0">
-        Hubs
-      </div>
+      <div class="p-3 font-extrabold border-b text-sm shrink-0">Hubs</div>
 
       <div class="flex-1 overflow-y-auto">
 
         @for (w of visibleWarehouses; track w; let i = $index) {
-          <div>
-            <div class="p-3 flex justify-between cursor-pointer border-b text-sm"
-              (click)="selectWarehouse(pageIndex * VISIBLE_COUNT + i)"
-              [class.bg-blue-50]="(pageIndex * VISIBLE_COUNT + i) === activeIndex">
-              <span class="font-bold">{{ w.name }}</span>
+        <div>
+
+          <!-- Hub row -->
+          <div class="p-3 flex justify-between cursor-pointer border-b text-sm"
+            (click)="selectWarehouse(pageIndex * VISIBLE_COUNT + i)"
+            [class.bg-blue-50]="(pageIndex * VISIBLE_COUNT + i) === activeIndex">
+            <span class="font-bold">{{ w.name }}</span>
+          </div>
+
+          <!-- Tiles — driven by hubTiles config -->
+          @if ((pageIndex * VISIBLE_COUNT + i) === activeIndex) {
+          <div class="grid grid-cols-3 gap-2 p-3">
+            @for (tile of hubTiles; track tile.key) {
+            <div [class]="tile.bg + ' rounded p-2 h-[60px] flex flex-col justify-between'">
+              <span class="text-[12px] font-bold text-slate-700">{{ tile.label }}</span>
+              <span class="text-base font-extrabold text-slate-900">
+                {{ w.stats[tile.key] }}
+              </span>
             </div>
-            <!-- TILES : 3 PER ROW -->
-            @if ((pageIndex * VISIBLE_COUNT + i) === activeIndex) {
-              <div class="grid grid-cols-3 gap-2 p-3">
-                <!-- TILE TEMPLATE -->
-                <div class="bg-slate-50 rounded p-2 h-[60px] flex flex-col justify-between">
-                  <span class="text-[12px] font-bold text-slate-700">
-                    TOTAL (Unit)
-                  </span>
-                  <span class="text-base font-extrabold text-slate-900">
-                    {{ w.stats.totalUnits }}
-                  </span>
-                </div>
-                <div class="bg-slate-50 rounded p-2 h-[60px] flex flex-col justify-between">
-                  <span class="text-[12px] font-bold text-slate-700">
-                    RELEASED (Unit)
-                  </span>
-                  <span class="text-base font-extrabold text-slate-900">
-                    {{ w.stats.releasedUnits }}
-                  </span>
-                </div>
-                <div class="bg-green-50 rounded p-2 h-[60px] flex flex-col justify-between">
-                  <span class="text-[12px] font-bold text-slate-700">
-                    PICKED (Unit)
-                  </span>
-                  <span class="text-base font-extrabold text-slate-900">
-                    {{ w.stats.pickedUnits }}
-                  </span>
-                </div>
-                <div class="bg-yellow-50 rounded p-2 h-[60px] flex flex-col justify-between">
-                  <span class="text-[12px] font-bold text-slate-700">
-                    PACKED (Unit)
-                  </span>
-                  <span class="text-base font-extrabold text-slate-900">
-                    {{ w.stats.packedUnits }}
-                  </span>
-                </div>
-                <div class="bg-purple-50 rounded p-2 h-[60px] flex flex-col justify-between">
-                  <span class="text-[12px] font-bold text-slate-700">
-                    SHIPPED (Unit)
-                  </span>
-                  <span class="text-base font-extrabold text-slate-900">
-                    {{ w.stats.shippedUnits }}
-                  </span>
-                </div>
-                <div class="bg-blue-50 rounded p-2 h-[60px] flex flex-col justify-between">
-                  <span class="text-[12px] font-bold text-slate-700">
-                    TOTAL BOX
-                  </span>
-                  <span class="text-base font-extrabold text-slate-900">
-                    {{ w.stats.totalBoxes }}
-                  </span>
-                </div>
-                <div class="bg-green-50 rounded p-2 h-[60px] flex flex-col justify-between">
-                  <span class="text-[12px] font-bold text-slate-700">
-                    PICKED BOX
-                  </span>
-                  <span class="text-base font-extrabold text-slate-900">
-                    {{ w.stats.pickedBoxes }}
-                  </span>
-                </div>
-                <div class="bg-yellow-50 rounded p-2 h-[60px] flex flex-col justify-between">
-                  <span class="text-[12px] font-bold text-slate-700">
-                    PACKED BOX
-                  </span>
-                  <span class="text-base font-extrabold text-slate-900">
-                    {{ w.stats.packedBoxes }}
-                  </span>
-                </div>
-                <div class="bg-purple-50 rounded p-2 h-[60px] flex flex-col justify-between">
-                  <span class="text-[12px] font-bold text-slate-700">
-                    SHIPPED BOX
-                  </span>
-                  <span class="text-base font-extrabold text-slate-900">
-                    {{ w.stats.shippedBoxes }}
-                  </span>
-                </div>
-              </div>
             }
           </div>
+          }
+
+        </div>
         }
+
       </div>
     </div>
 
@@ -190,72 +109,35 @@
 
       <div class="p-3 font-extrabold border-b flex justify-between text-sm shrink-0">
         <span>{{ activeWarehouse.name }} – Current Status</span>
-                <span class="px-2 py-1 rounded-full text-[9px] font-extrabold uppercase" [ngClass]="statusView === 'UNIT'
-            ? 'bg-blue-100 text-blue-800'
-            : 'bg-purple-100 text-purple-800'">
+        <span class="px-2 py-1 rounded-full text-[9px] font-extrabold uppercase"
+          [ngClass]="statusView === 'UNIT' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'">
           {{ statusView }}
         </span>
       </div>
 
       <div class="flex-1 overflow-hidden pb-2">
 
-        <!-- UNIT TABLE -->
-        @if (statusView === 'UNIT') {
-          <table class="w-full text-center text-[13px]">
-            <thead class="bg-slate-200">
-              <tr>
-                <th class="text-left px-3 w-[160px]">Depot</th>
-                <th>Total</th>
-                <th>Released</th>
-                <th>Picked</th>
-                <th>Packed</th>
-                <th>Shipped</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (w of activeWarehouse.waves; track w) {
-                <tr class="border-t h-[27px]">
-                  <td class="text-left px-3 w-[160px] truncate">
-                    {{ w.name }}
-                  </td>
-                  <td class="font-bold">{{ w.totalUnits }}</td>
-                  <td>{{ w.releasedUnits }}</td>
-                  <td class="font-bold text-green-700">{{ w.pickedUnits }}</td>
-                  <td class="font-bold text-yellow-700">{{ w.packedUnits }}</td>
-                  <td class="font-bold text-purple-700">{{ w.shippedUnits }}</td>
-                </tr>
+        <!-- TABLE — single template, driven by activeTableCols -->
+        <table class="w-full text-center text-[13px]">
+          <thead class="bg-slate-200">
+            <tr>
+              <th class="text-left px-3 w-[160px]">Depot</th>
+              @for (col of activeTableCols; track col.key) {
+              <th>{{ col.label }}</th>
               }
-            </tbody>
-          </table>
-        }
-
-        <!-- BOX TABLE -->
-        @if (statusView === 'BOX') {
-          <table class="w-full text-center text-[13px]">
-            <thead class="bg-slate-200">
-              <tr>
-                <th class="text-left px-3 w-[160px]">Depot</th>
-                <th>Total</th>
-                <th>Picked</th>
-                <th>Packed</th>
-                <th>Shipped</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (w of activeWarehouse.waves; track w) {
-                <tr class="border-t h-[27px]">
-                  <td class="text-left px-3 w-[160px] truncate">
-                    {{ w.name }}
-                  </td>
-                  <td class="font-bold">{{ w.totalBoxes }}</td>
-                  <td class="font-bold text-green-700">{{ w.pickedBoxes }}</td>
-                  <td class="font-bold text-yellow-700">{{ w.packedBoxes }}</td>
-                  <td class="font-bold text-purple-700">{{ w.shippedBoxes }}</td>
-                </tr>
+            </tr>
+          </thead>
+          <tbody>
+            @for (w of activeWarehouse.waves; track w) {
+            <tr class="border-t h-[27px]">
+              <td class="text-left px-3 w-[160px] truncate">{{ w.name }}</td>
+              @for (col of activeTableCols; track col.key) {
+              <td [class]="col.cls">{{ w[col.key] }}</td>
               }
-            </tbody>
-          </table>
-        }
+            </tr>
+            }
+          </tbody>
+        </table>
 
       </div>
     </div>

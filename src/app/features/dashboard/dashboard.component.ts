@@ -24,26 +24,33 @@ interface Wave {
     pickedBoxes: number;
     packedBoxes: number;
     shippedBoxes: number;
+    [key: string]: number | string;
+}
+
+interface TopStats {
+    totalUnits: number;
+    unitsOnWave: number;
+    boxes: number;
+    [key: string]: number;
+}
+
+interface WarehouseStats {
+    totalUnits: number;
+    releasedUnits: number;
+    pickedUnits: number;
+    packedUnits: number;
+    shippedUnits: number;
+    totalBoxes: number;
+    pickedBoxes: number;
+    packedBoxes: number;
+    shippedBoxes: number;
+    [key: string]: number;
 }
 
 interface Warehouse {
     name: string;
-    topStats: {
-        totalUnits: number;
-        unitsOnWave: number;
-        boxes: number;
-    };
-    stats: {
-        totalUnits: number;
-        releasedUnits: number;
-        pickedUnits: number;
-        packedUnits: number;
-        shippedUnits: number;
-        totalBoxes: number;
-        pickedBoxes: number;
-        packedBoxes: number;
-        shippedBoxes: number;
-    };
+    topStats: TopStats;
+    stats: WarehouseStats;
     waves: Wave[];
 }
 
@@ -78,6 +85,43 @@ export class DashboardComponent implements OnInit, OnDestroy {
         eta: '--'
     };
 
+    // ── Dynamic config arrays ──────────────────────────────────────────────
+
+    topStatCards = [
+        { label: 'Total Units', key: 'totalUnits', bg: 'bg-slate-100', textColor: 'text-slate-900' },
+        { label: 'Units on Wave', key: 'unitsOnWave', bg: 'bg-green-100', textColor: 'text-green-800' },
+        { label: 'Boxes', key: 'boxes', bg: 'bg-yellow-100', textColor: 'text-yellow-800' },
+    ];
+
+    hubTiles = [
+        { label: 'TOTAL (Unit)', key: 'totalUnits', bg: 'bg-slate-50' },
+        { label: 'RELEASED (Unit)', key: 'releasedUnits', bg: 'bg-slate-50' },
+        { label: 'PICKED (Unit)', key: 'pickedUnits', bg: 'bg-green-50' },
+        { label: 'PACKED (Unit)', key: 'packedUnits', bg: 'bg-yellow-50' },
+        { label: 'SHIPPED (Unit)', key: 'shippedUnits', bg: 'bg-purple-50' },
+        { label: 'TOTAL BOX', key: 'totalBoxes', bg: 'bg-blue-50' },
+        { label: 'PICKED BOX', key: 'pickedBoxes', bg: 'bg-green-50' },
+        { label: 'PACKED BOX', key: 'packedBoxes', bg: 'bg-yellow-50' },
+        { label: 'SHIPPED BOX', key: 'shippedBoxes', bg: 'bg-purple-50' },
+    ];
+
+    unitTableCols = [
+        { label: 'Total', key: 'totalUnits', cls: 'font-bold' },
+        { label: 'Released', key: 'releasedUnits', cls: '' },
+        { label: 'Picked', key: 'pickedUnits', cls: 'font-bold text-green-700' },
+        { label: 'Packed', key: 'packedUnits', cls: 'font-bold text-yellow-700' },
+        { label: 'Shipped', key: 'shippedUnits', cls: 'font-bold text-purple-700' },
+    ];
+
+    boxTableCols = [
+        { label: 'Total', key: 'totalBoxes', cls: 'font-bold' },
+        { label: 'Picked', key: 'pickedBoxes', cls: 'font-bold text-green-700' },
+        { label: 'Packed', key: 'packedBoxes', cls: 'font-bold text-yellow-700' },
+        { label: 'Shipped', key: 'shippedBoxes', cls: 'font-bold text-purple-700' },
+    ];
+
+    // ──────────────────────────────────────────────────────────────────────
+
     private wsSub!: Subscription;
     private expiryCheckTimer: any;
     private timerId: any;
@@ -95,25 +139,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     async ngOnInit(): Promise<void> {
         if (!this.isBrowser) return;
 
-        // Step 1: Handle Cognito redirect if ?code=xxx in URL
         await this.handleCognitoRedirect();
 
-        // Step 2: Verify we have a valid token, else kick to login
         if (!this.authService.getValidToken()) {
             this.authService.forceLogout('Please login to continue.');
             return;
         }
 
-        // Step 3: Load mock/initial data immediately so UI isn't blank
         this.loading = true;
         this.mapBackendData(mockData);
         this.loading = false;
         this.isFirstLoad = false;
 
-        // Step 4: Connect WebSocket for real-time updates
         this.connectWebSocket();
-
-        // Step 5: Watch token expiry - when token expires, force logout
         this.startExpiryWatcher();
     }
 
@@ -150,13 +188,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 throw new Error('OAuth state mismatch');
             }
 
-            console.log('Exchanging code for token...');
+            // console.log('Exchanging code for token...');
             await this.authService.exchangeCodeForToken(code);
-            console.log('Token received and stored');
+            // console.log('Token received and stored');
 
             this.cleanUrl();
         } catch (err) {
-            console.error('Token exchange failed:', err);
+            // console.error('Token exchange failed:', err);
             this.cleanUrl();
             this.authService.forceLogout('Login failed. Please try again.');
         }
@@ -173,11 +211,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // --- Token expiry watcher ---
 
     private startExpiryWatcher(): void {
-        const checkInterval = 30 * 1000; // every 30 seconds
+        const checkInterval = 30 * 1000;
 
         this.expiryCheckTimer = setInterval(() => {
             if (this.authService.isTokenExpired()) {
-                console.warn('Token expired - redirecting to login');
+                // console.warn('Token expired - redirecting to login');
                 clearInterval(this.expiryCheckTimer);
                 this.wsService.disconnect();
                 this.authService.forceLogout('Your session has expired. Please login again.');
@@ -192,7 +230,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         this.wsSub = this.wsService.messages$.subscribe({
             next: (data) => {
-                console.log('Dashboard update received via WebSocket', data);
+                // console.log('Dashboard update received via WebSocket', data);
                 this.handleWebSocketMessage(data);
             },
             error: (err) => {
@@ -201,49 +239,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
     }
 
-    private handleWebSocketMessageOLD(data: any): void {
-        // Adjust this based on actual webhook payload shape
-        // If payload is wrapped like { jsonMessage: "..." }, parse it
-        if (data?.jsonMessage) {
-            try {
-                const parsed = typeof data.jsonMessage === 'string'
-                    ? JSON.parse(data.jsonMessage)
-                    : data.jsonMessage;
-                this.mapBackendData(parsed);
-            } catch (err) {
-                console.error('Failed to parse WS payload', err);
-            }
-            return;
-        }
-
-        // If payload is already the dashboard shape
-        if (data?.SuperUserDB) {
-            this.mapBackendData(data);
-        }
-    }
-
-
     private handleWebSocketMessage(data: any): void {
-
-        // CASE 1: data.message.SuperUserDB
         if (data?.message?.SuperUserDB) {
             this.mapBackendData(data.message);
             return;
         }
 
-        // CASE 2: direct SuperUserDB (fallback)
         if (data?.SuperUserDB) {
             this.mapBackendData(data);
             return;
         }
 
-        // CASE 3: jsonMessage (already handled)
         if (data?.jsonMessage) {
             try {
                 const parsed = typeof data.jsonMessage === 'string'
                     ? JSON.parse(data.jsonMessage)
                     : data.jsonMessage;
-
                 this.handleWebSocketMessage(parsed);
             } catch (err) {
                 console.error('Failed to parse WS payload', err);
@@ -282,16 +293,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 };
             });
 
-            const totals = waves.reduce((a, b) => {
-                a.totalUnits += b.totalUnits;
-                a.releasedUnits += b.releasedUnits;
-                a.pickedUnits += b.pickedUnits;
-                a.packedUnits += b.packedUnits;
-                a.shippedUnits += b.shippedUnits;
-                a.totalBoxes += b.totalBoxes;
-                a.pickedBoxes += b.pickedBoxes;
-                a.packedBoxes += b.packedBoxes;
-                a.shippedBoxes += b.shippedBoxes;
+            const totals: WarehouseStats = waves.reduce((a, b) => {
+                a.totalUnits += b.totalUnits as number;
+                a.releasedUnits += b.releasedUnits as number;
+                a.pickedUnits += b.pickedUnits as number;
+                a.packedUnits += b.packedUnits as number;
+                a.shippedUnits += b.shippedUnits as number;
+                a.totalBoxes += b.totalBoxes as number;
+                a.pickedBoxes += b.pickedBoxes as number;
+                a.packedBoxes += b.packedBoxes as number;
+                a.shippedBoxes += b.shippedBoxes as number;
                 return a;
             }, {
                 totalUnits: 0, releasedUnits: 0, pickedUnits: 0, packedUnits: 0, shippedUnits: 0,
@@ -362,11 +373,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         return this.warehouses.slice(start, start + this.VISIBLE_COUNT);
     }
 
-    get activeWarehouse() {
+    get activeWarehouse(): Warehouse {
         return this.warehouses[this.activeIndex];
     }
 
-    get activeTopStats() {
+    get activeTopStats(): TopStats {
         return this.activeWarehouse?.topStats;
+    }
+
+    get activeTableCols() {
+        return this.statusView === 'UNIT' ? this.unitTableCols : this.boxTableCols;
     }
 }
