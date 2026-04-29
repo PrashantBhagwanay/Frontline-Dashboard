@@ -42,21 +42,21 @@
       <div class="bg-slate-100 rounded-md px-3 py-1 h-full">
         <p class="text-[11px] font-bold uppercase text-slate-700">Total Units</p>
         <p class="text-lg font-extrabold text-slate-900">
-          {{ activeTopStats?.totalUnits }}
+          {{ activeTopStats.totalUnits }}
         </p>
       </div>
 
       <div class="bg-green-100 rounded-md px-3 py-1 h-full">
         <p class="text-[11px] font-bold uppercase text-slate-700">Units on Wave</p>
         <p class="text-lg font-extrabold text-green-800">
-          {{ activeTopStats?.unitsOnWave }}
+          {{ activeTopStats.unitsOnWave }}
         </p>
       </div>
 
       <div class="bg-yellow-100 rounded-md px-3 py-1 h-full">
         <p class="text-[11px] font-bold uppercase text-slate-700">Boxes</p>
         <p class="text-lg font-extrabold text-yellow-800">
-          {{ activeTopStats?.boxes }}
+          {{ activeTopStats.boxes }}
         </p>
       </div>
     </div>
@@ -189,7 +189,7 @@
     <div class="col-span-12 md:col-span-7 bg-white rounded-xl border flex flex-col overflow-hidden">
 
       <div class="p-3 font-extrabold border-b flex justify-between text-sm shrink-0">
-        <span>{{ activeWarehouse?.name }} – Current Status</span>
+        <span>{{ activeWarehouse.name }} – Current Status</span>
                 <span class="px-2 py-1 rounded-full text-[9px] font-extrabold uppercase" [ngClass]="statusView === 'UNIT'
             ? 'bg-blue-100 text-blue-800'
             : 'bg-purple-100 text-purple-800'">
@@ -213,7 +213,7 @@
               </tr>
             </thead>
             <tbody>
-              @for (w of activeWarehouse?.waves; track w) {
+              @for (w of activeWarehouse.waves; track w) {
                 <tr class="border-t h-[27px]">
                   <td class="text-left px-3 w-[160px] truncate">
                     {{ w.name }}
@@ -242,7 +242,7 @@
               </tr>
             </thead>
             <tbody>
-              @for (w of activeWarehouse?.waves; track w) {
+              @for (w of activeWarehouse.waves; track w) {
                 <tr class="border-t h-[27px]">
                   <td class="text-left px-3 w-[160px] truncate">
                     {{ w.name }}
